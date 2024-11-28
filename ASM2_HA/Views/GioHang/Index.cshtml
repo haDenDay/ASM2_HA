@@ -1,0 +1,42 @@
+﻿@model List<ASM2_HA.Models.GHCT>
+
+<h2>Giỏ hàng của bạn</h2>
+
+@if (Model != null && Model.Count > 0)
+{
+    <table>
+        <thead>
+            <tr>
+                <th>Tên sản phẩm</th>
+                <th>Số lượng</th>
+                <th>Giá</th>
+                <th>Tổng</th>
+                <th>Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.SanPham.Name</td>
+                    <td>
+                        <form asp-action="UpdateQuantity" method="post">
+                            <input type="hidden" name="ghctId" value="@item.Id" />
+                            <input type="number" name="newQuantity" value="@item.SoLuong" min="1" />
+                            <button type="submit">Cập nhật</button>
+                        </form>
+                    </td>
+                    <td>@item.SanPham.Price</td>
+                    <td>@(item.SoLuong * item.SanPham.Price)</td>
+                    <td>
+                        <a asp-action="RemoveFromCart" asp-route-ghctId="@item.Id">Xóa</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Giỏ hàng của bạn đang trống.</p>
+}
